@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minion Translator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="goggle-strap"></div>
+        <div class="goggle"></div>
+        
+        <h1>Minion Translator</h1>
+        
+        <div class="translator-box">
+            <select id="sourceLang">
+                <option value="english">English</option>
+                <option value="minion">Minionese</option>
+                <option value="filipino">Filipino</option>
+            </select>
+            <textarea id="inputText" placeholder="Enter text here..."></textarea>
+        </div>
+
+        <button onclick="translateText()">Translate</button>
+
+        <div class="translator-box">
+            <select id="targetLang">
+                <option value="minion">Minionese</option>
+                <option value="english">English</option>
+                <option value="filipino">Filipino</option>
+            </select>
+            <textarea id="outputText" readonly></textarea>
+        </div>
+
+        <button onclick="speakText()" class="speak-btn">🔊 Speak Translation</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
