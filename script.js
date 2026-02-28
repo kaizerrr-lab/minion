@@ -74,7 +74,7 @@ async function speakText() {
     if (!textToSpeak) return;
 
     const apiKey = "sk_2834bc9b06cc619c18d7ed4cfe205efc0a0c321f1998f954"; 
-    const voiceId = "HhgIsd9KZQFGvszvloO3"; 
+    const voiceId = "7pNwE2A8yJlm9vsz1hMw"; 
     const apiUrl = `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`;
 
     try {
