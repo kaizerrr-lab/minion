@@ -69,26 +69,49 @@ function translateText() {
     document.getElementById('outputText').value = text;
 }
 
-function speakText() {
-    const textToSpeak = document.getElementById('outputText').value;
+async function speakText() {
+    const textToSpeak = document.getElementById('outputText').value.toLowerCase().trim();
     if (!textToSpeak) return;
 
-    window.speechSynthesis.cancel();
+    const apiKey = "sk_2834bc9b06cc619c18d7ed4cfe205efc0a0c321f1998f954"; 
+    const voiceId = "HhgIsd9KZQFGvszvloO3"; 
+    const apiUrl = `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`;
 
-    const utterance = new SpeechSynthesisUtterance(textToSpeak);
-    
-    utterance.pitch = 2.0;
-    utterance.rate = 1.3;
-    utterance.volume = 1.0;
+    try {
+        const response = await fetch(apiUrl, {
+            method: "POST",
+            headers: {
+                "Accept": "audio/mpeg",
+                "Content-Type": "application/json",
+                "xi-api-key": apiKey
+            },
+            body: JSON.stringify({
+                text: textToSpeak,
+                model_id: "eleven_multilingual_v2",
+                voice_settings: {
+                    stability: 0.5,
+                    similarity_boost: 0.75
+                }
+            })
+        });
 
-    const voices = window.speechSynthesis.getVoices();
-    if (voices.length > 0) {
-        utterance.voice = voices.find(v => v.name.includes("Google") || v.name.includes("Female")) || voices[0];
+        if (response.ok) {
+            const audioBlob = await response.blob();
+            const audioUrl = URL.createObjectURL(audioBlob);
+            const audio = new Audio(audioUrl);
+            audio.play();
+        } else {
+            fallbackVoice(textToSpeak);
+        }
+    } catch (error) {
+        fallbackVoice(textToSpeak);
     }
-
-    window.speechSynthesis.speak(utterance);
 }
 
-window.speechSynthesis.onvoiceschanged = () => {
-    window.speechSynthesis.getVoices();
-};
+function fallbackVoice(text) {
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.pitch = 2.0;
+    utterance.rate = 1.3;
+    window.speechSynthesis.speak(utterance);
+     }
